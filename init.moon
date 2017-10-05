@@ -2,34 +2,30 @@ import command from howl
 
 abbrex = require 'abbrex'
 
+prepend = (input, prefix) ->
+  out = {}
+  for i in string.gmatch(input,'([^\n]+)')
+    table.insert(out, prefix .. i)
+  table.concat(out,'\n')
+
 command.register {
   name: 'abbrex'
   description: 'Expand HTML abbreviation (current line)'
   handler: () ->
-    -- line = howl.app.editor.current_line.text
-    -- istr = string.match(line,'(%s+)') or ''
-    -- abbr = string.match(line,'%s*(%a[^\n]*)')
-    -- howl.app.editor.cursor\home_indent!
-    -- howl.app.editor\delete_to_end_of_line!
+    line = howl.app.editor.current_line.text
+    istr = string.match(line,'(%s+)') or ''
+    abbr = string.match(line,'%s*(%a[^\n]*)')
+    howl.app.editor.cursor\home!
+    howl.app.editor\delete_to_end_of_line!
     indentation = howl.app.editor.config_at_cursor.indent
-    -- howl.app.editor\insert(abbrex(abbr,indentation))
-    -- howl.clipboard.push(abbrex(abbr,indentation))
-    -- howl.command['editor-paste']()
-    howl.app.editor.selection.text = abbrex(howl.app.editor.selection.text,indentation)
+    text = abbrex(abbr,indentation)
+    howl.app.editor\insert(prepend(text,istr))
 }
 
 command.register {
   name: 'abbrex-tight'
   description: 'Expand HTML abbreviation (one-line)'
   handler: () ->
-    -- line = howl.app.editor.current_line.text
-    -- istr = string.match(line,'(%s+)') or ''
-    -- abbr = string.match(line,'%s*(%a[^\n]*)')
-    -- howl.app.editor.cursor\home_indent!
-    -- howl.app.editor\delete_to_end_of_line!
-    -- howl.app.editor\insert(abbrex(abbr,0))
-    -- howl.clipboard.push(abbrex(abbr,indentation))
-    -- howl.command['editor-paste']()
     howl.app.editor.selection.text = abbrex(howl.app.editor.selection.text,0)
 
 }
