@@ -26,7 +26,8 @@ command.register {
   name: 'abbrex-tight'
   description: 'Expand HTML abbreviation (one-line)'
   handler: () ->
-    howl.app.editor.selection.text = abbrex(howl.app.editor.selection.text,0)
+    if not howl.app.editor.selection.empty
+      howl.app.editor.selection.text = abbrex(howl.app.editor.selection.text,0)
 
 }
 
