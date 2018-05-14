@@ -3,10 +3,7 @@ import command from howl
 abbrex = require 'abbrex'
 
 prepend = (input, prefix) ->
-  out = {}
-  for i in string.gmatch(input,'([^\n]+)')
-    table.insert(out, prefix .. i)
-  table.concat(out,'\n')
+  table.concat([prefix..i for i in string.gmatch(input,'([^\n]+)')],'\n')
 
 command.register {
   name: 'abbrex'
@@ -28,7 +25,6 @@ command.register {
   handler: () ->
     if not howl.app.editor.selection.empty
       howl.app.editor.selection.text = abbrex(howl.app.editor.selection.text,0)
-
 }
 
 unload = ->
